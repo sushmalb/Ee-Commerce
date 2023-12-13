@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const createError = require("http-errors");
 
 require("dotenv").config();
+require("./helpers/init_mongodb");
 const cors = require("cors");
 
 // import routes
@@ -13,19 +14,15 @@ const authRoutes = require("./routes/Auth.route");
 
 //app
 const app = express();
+
+// SHOWS IN THE CONSOLE THE TYPE AND WHERE WE ARE MAKING A REQUEST
+app.use(morgan("dev"));
+
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
 app.use(cors());
-
-mongoose
-  .connect(
-    "mongodb+srv://sushmalb:Sushm%4014@cluster0.ptg1vhv.mongodb.net/e-commerce"
-  )
-  .then(() => {
-    console.log("Connected to MongoDB");
-  });
 
 // Routes
 app.use("/api", userRoutes);
